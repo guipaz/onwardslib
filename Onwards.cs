@@ -4,6 +4,8 @@ namespace onwardslib
 {
     public static class Onwards
     {
+        public static string DataFolder { get; set; } = @"..\..\..\data";
+
         public static SpriteBatch SpriteBatch { get; private set; }
         public static GraphicsDevice GraphicsDevice { get; private set; }
 
