@@ -7,7 +7,7 @@ namespace onwardslib
     {
         public OGame()
         {
-            
+            var _ = new GraphicsDeviceManager(this);
         }
 
         protected override void Initialize()
