@@ -6,6 +6,7 @@ namespace onwardslib
     public static class TextureLoader
     {
         static IDictionary<string, Texture2D> _loadedTextures = new Dictionary<string, Texture2D>();
+        static readonly Dictionary<Color, Texture2D> _colorTextures = new Dictionary<Color, Texture2D>();
 
         public static Func<string, Stream> CustomStreamFunc { get; set; }
 
@@ -30,6 +31,23 @@ namespace onwardslib
             }
 
             return texture;
+        }
+
+        public static Texture2D GetColor(Color color)
+        {
+            if (!_colorTextures.ContainsKey(color))
+            {
+                var data = new Color[4];
+                for (int y = 0; y < 2; y++)
+                    for (int x = 0; x < 2; x++)
+                        data[y * 2 + x] = color;
+
+                var texture2D = new Texture2D(Onwards.GraphicsDevice, 2, 2);
+                texture2D.SetData(data);
+                _colorTextures[color] = texture2D;
+            }
+            
+            return _colorTextures[color];
         }
 
         static Texture2D FromStream(Stream stream)

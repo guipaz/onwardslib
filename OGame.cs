@@ -5,9 +5,16 @@ namespace onwardslib
 {
     public class OGame : Game
     {
-        public OGame()
+        GraphicsDeviceManager _graphicsDeviceManager;
+
+        IMaestro _maestro;
+
+        public static Point ViewportResolution { get; private set; }
+
+        public OGame(IMaestro maestro)
         {
-            var _ = new GraphicsDeviceManager(this);
+            _graphicsDeviceManager = new GraphicsDeviceManager(this);
+            _maestro = maestro;
         }
 
         protected override void Initialize()
@@ -24,12 +31,26 @@ namespace onwardslib
 
         protected override void Draw(GameTime gameTime)
         {
+            _maestro.Draw();
+
             base.Draw(gameTime);
         }
 
         protected override void Update(GameTime gameTime)
         {
+            _maestro.Update();
+
             base.Update(gameTime);
+        }
+
+        public void ChangeResolution(int x, int y, bool fullscreen)
+        {
+            ViewportResolution = new Point(x, y);
+            _graphicsDeviceManager.IsFullScreen = fullscreen;
+            _graphicsDeviceManager.PreferredBackBufferWidth = ViewportResolution.X;
+            _graphicsDeviceManager.PreferredBackBufferHeight = ViewportResolution.Y;
+            _graphicsDeviceManager.HardwareModeSwitch = false;
+            _graphicsDeviceManager.ApplyChanges();
         }
     }
 }
