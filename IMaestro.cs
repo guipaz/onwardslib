@@ -2,6 +2,7 @@
 {
     public interface IMaestro
     {
+        void Load();
         void Draw();
         void Update();
     }

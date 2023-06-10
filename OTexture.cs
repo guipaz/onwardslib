@@ -22,8 +22,7 @@ namespace onwardslib
 
         public static OTexture Get(string textureName, int pixelsToUnit = 16)
         {
-            var texture = TextureLoader.Get(textureName);
-            return new OTexture(texture, pixelsToUnit);
+            return TextureLoader.Get(textureName, pixelsToUnit);
         }
     }
 }

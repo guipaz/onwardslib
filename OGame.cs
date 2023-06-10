@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using onwardslib.input;
 
 namespace onwardslib
 {
@@ -27,10 +29,14 @@ namespace onwardslib
             base.LoadContent();
 
             Onwards.Initialize(new SpriteBatch(GraphicsDevice), GraphicsDevice);
+
+            _maestro.Load();
         }
 
         protected override void Draw(GameTime gameTime)
         {
+            GraphicsDevice.Clear(Color.Transparent);
+
             _maestro.Draw();
 
             base.Draw(gameTime);
@@ -38,6 +44,12 @@ namespace onwardslib
 
         protected override void Update(GameTime gameTime)
         {
+            Onwards.DeltaTime = (float) gameTime.ElapsedGameTime.TotalSeconds;
+
+            Input.Keyboard.Update();
+            Input.Mouse.Update();
+            Input.Gamepad.Update();
+
             _maestro.Update();
 
             base.Update(gameTime);

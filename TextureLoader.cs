@@ -5,46 +5,50 @@ namespace onwardslib
 {
     public static class TextureLoader
     {
-        static IDictionary<string, Texture2D> _loadedTextures = new Dictionary<string, Texture2D>();
-        static readonly Dictionary<Color, Texture2D> _colorTextures = new Dictionary<Color, Texture2D>();
+        static IDictionary<string, OTexture> _loadedTextures = new Dictionary<string, OTexture>();
+        static readonly Dictionary<Color, OTexture> _colorTextures = new Dictionary<Color, OTexture>();
 
         public static Func<string, Stream> CustomStreamFunc { get; set; }
 
-        public static Texture2D Get(string name, string extension = ".png")
+        public static OTexture Get(string name, int pixelsToUnit = 16, string extension = ".png")
         {
-            if (!_loadedTextures.TryGetValue(name, out var texture))
+            if (!_loadedTextures.TryGetValue(name, out var oTexture))
             {
                 if (CustomStreamFunc != null)
                 {
                     using Stream stream = CustomStreamFunc(name + extension);
-                    texture = FromStream(stream);
+
+                    var texture = FromStream(stream);
+                    oTexture = new OTexture(texture, pixelsToUnit);
                 }
                 else
                 {
                     var path = $"{Onwards.DataFolder}/textures/{name}{extension}";
                     using Stream stream = File.OpenRead(path);
-                    texture = FromStream(stream);
-                    texture.Name = name;
+
+                    var texture = FromStream(stream);
+                    oTexture = new OTexture(texture, pixelsToUnit) { Name = name };
                 }
 
-                _loadedTextures[name] = texture;
+                _loadedTextures[name] = oTexture;
             }
 
-            return texture;
+            return oTexture;
         }
 
-        public static Texture2D GetColor(Color color)
+        public static OTexture GetColor(Color color, int width = 2, int height = 2)
         {
             if (!_colorTextures.ContainsKey(color))
             {
-                var data = new Color[4];
-                for (int y = 0; y < 2; y++)
-                    for (int x = 0; x < 2; x++)
-                        data[y * 2 + x] = color;
+                var data = new Color[width * height];
+                for (int y = 0; y < height; y++)
+                    for (int x = 0; x < width; x++)
+                        data[y * width + x] = color;
 
-                var texture2D = new Texture2D(Onwards.GraphicsDevice, 2, 2);
+                var texture2D = new Texture2D(Onwards.GraphicsDevice, width, height);
                 texture2D.SetData(data);
-                _colorTextures[color] = texture2D;
+
+                _colorTextures[color] = new OTexture(texture2D);
             }
             
             return _colorTextures[color];

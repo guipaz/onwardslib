@@ -35,8 +35,8 @@ namespace onwardslib
                 {
                     _dirty = false;
 
-                    double tX = _position.X * Zoom;
-                    double tY = _position.Y * Zoom;
+                    double tX = _position.X * _zoom;
+                    double tY = _position.Y * _zoom;
 
                     _matrix = Matrix.CreateTranslation(-new Vector3(_position.X, _position.Y, 0)) * Matrix.CreateScale(_zoom) *
                            Matrix.CreateTranslation(new Vector3((float)(tX - Math.Truncate(tX)),
@@ -48,9 +48,9 @@ namespace onwardslib
         }
 
         Matrix _matrix;
-        bool _dirty;
+        bool _dirty = true;
         Vector2 _position;
-        float _zoom;
+        float _zoom = 1;
 
         public Camera(int width, int height)
         {
