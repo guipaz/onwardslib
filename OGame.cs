@@ -11,8 +11,6 @@ namespace onwardslib
 
         IMaestro _maestro;
 
-        public static Point ViewportResolution { get; private set; }
-
         public OGame(IMaestro maestro)
         {
             _graphicsDeviceManager = new GraphicsDeviceManager(this);
@@ -57,10 +55,10 @@ namespace onwardslib
 
         public void ChangeResolution(int x, int y, bool fullscreen)
         {
-            ViewportResolution = new Point(x, y);
+            Onwards.ViewportResolution = new Point(x, y);
             _graphicsDeviceManager.IsFullScreen = fullscreen;
-            _graphicsDeviceManager.PreferredBackBufferWidth = ViewportResolution.X;
-            _graphicsDeviceManager.PreferredBackBufferHeight = ViewportResolution.Y;
+            _graphicsDeviceManager.PreferredBackBufferWidth = Onwards.ViewportResolution.X;
+            _graphicsDeviceManager.PreferredBackBufferHeight = Onwards.ViewportResolution.Y;
             _graphicsDeviceManager.HardwareModeSwitch = false;
             _graphicsDeviceManager.ApplyChanges();
         }

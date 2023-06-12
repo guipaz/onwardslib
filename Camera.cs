@@ -50,11 +50,37 @@ namespace onwardslib
         Matrix _matrix;
         bool _dirty = true;
         Vector2 _position;
-        float _zoom = 1;
+        float _zoom = 2;
 
         public Camera(int width, int height)
         {
             RenderTarget = new RenderTarget2D(Onwards.GraphicsDevice, width, height, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.DiscardContents);
+        }
+
+        public void CenterOn(Vector2 position, bool immediate = false)
+        {
+            const float movementTolerance = 5f;
+            const float snapTolerance = 1f;
+
+            var finalPos = position - Onwards.ViewportResolution.ToVector2() / 2 / _zoom;
+            if (immediate)
+            {
+                Position = finalPos;
+            }
+            else
+            {
+                var diff = Position - finalPos;
+                var biggerDiff = Math.Max(Math.Abs(diff.X), Math.Abs(diff.Y));
+
+                Position = Vector2.Lerp(Position, finalPos, (biggerDiff <= movementTolerance ? .1f : .05f) * _zoom);
+
+                if (biggerDiff <= snapTolerance)
+                {
+                    Position = finalPos;
+                }
+
+                Console.WriteLine(Position - finalPos);
+            }
         }
     }
 }
