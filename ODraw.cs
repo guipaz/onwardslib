@@ -21,13 +21,11 @@ namespace onwardslib
 
         public static void Draw(Sprite sprite, Vector2 position)
         {
-            //TODO PixelToUnit ratio
-
-            _rect.X = (int) position.X;
-            _rect.Y = (int) position.Y;
-            _rect.Width = (int)sprite.SourceRectangle.Width;
-            _rect.Height = (int)sprite.SourceRectangle.Height;
-            Onwards.SpriteBatch.Draw(sprite.Texture.Texture2D, _rect, Color.White); //TODO opacity
+            _rect.X = (int) (position.X * _currentCamera.SpriteScale);
+            _rect.Y = (int) (position.Y * _currentCamera.SpriteScale);
+            _rect.Width = (int)(sprite.SourceRectangle.Width * _currentCamera.SpriteScale);
+            _rect.Height = (int)(sprite.SourceRectangle.Height * _currentCamera.SpriteScale);
+            Onwards.SpriteBatch.Draw(sprite.Texture, _rect, Color.White); //TODO opacity
         }
     }
 }

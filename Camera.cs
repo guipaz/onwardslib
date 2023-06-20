@@ -25,7 +25,15 @@ namespace onwardslib
                 _dirty = true;
             }
         }
-        public int PixelsPerUnit { get; set; } = 16;
+        public int SpriteScale
+        {
+            get => _spriteScale;
+            set
+            {
+                _spriteScale = value;
+                _dirty = true;
+            }
+        }
         public RenderTarget2D RenderTarget { get; }
         public Matrix Matrix
         {
@@ -36,10 +44,11 @@ namespace onwardslib
                     _dirty = false;
 
                     double tX = _position.X * _zoom;
-                    double tY = _position.Y * _zoom;
+                    double tY = _position.Y *_zoom;
 
-                    _matrix = Matrix.CreateTranslation(-new Vector3(_position.X, _position.Y, 0)) * Matrix.CreateScale(_zoom) *
-                           Matrix.CreateTranslation(new Vector3((float)(tX - Math.Truncate(tX)),
+                    _matrix = Matrix.CreateTranslation(-new Vector3(_position.X, _position.Y, 0)) *
+                              Matrix.CreateScale(_zoom) *
+                              Matrix.CreateTranslation(new Vector3((float)(tX - Math.Truncate(tX)),
                                (float)(tY - Math.Truncate(tY)), 0));
                 }
 
@@ -50,7 +59,8 @@ namespace onwardslib
         Matrix _matrix;
         bool _dirty = true;
         Vector2 _position;
-        float _zoom = 2;
+        float _zoom = 1;
+        int _spriteScale = 1;
 
         public Camera(int width, int height)
         {
@@ -62,7 +72,7 @@ namespace onwardslib
             const float movementTolerance = 5f;
             const float snapTolerance = 1f;
 
-            var finalPos = position - Onwards.ViewportResolution.ToVector2() / 2 / _zoom;
+            var finalPos = position * _spriteScale - Onwards.ViewportResolution.ToVector2() / 2 / _zoom;
             if (immediate)
             {
                 Position = finalPos;
@@ -78,8 +88,6 @@ namespace onwardslib
                 {
                     Position = finalPos;
                 }
-
-                Console.WriteLine(Position - finalPos);
             }
         }
     }
