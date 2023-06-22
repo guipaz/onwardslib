@@ -9,6 +9,7 @@ namespace onwardslib
         public Texture2D Texture { get; set; }
         public Rectangle SourceRectangle { get; set; }
         public bool Flipped { get; set; }
+        public float Opacity { get; set; } = 1f;
 
         public Sprite(string name, string texture, Rectangle? rectangle = null)
         {

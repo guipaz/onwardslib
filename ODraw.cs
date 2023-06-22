@@ -1,12 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace onwardslib
 {
     public static class ODraw
     {
         static Camera _currentCamera;
-        static Rectangle _rect = new Rectangle();
-
+        
         public static void Begin(Camera camera)
         {
             _currentCamera = camera;
@@ -21,11 +21,28 @@ namespace onwardslib
 
         public static void Draw(Sprite sprite, Vector2 position)
         {
-            _rect.X = (int) (position.X * _currentCamera.SpriteScale);
-            _rect.Y = (int) (position.Y * _currentCamera.SpriteScale);
-            _rect.Width = (int)(sprite.SourceRectangle.Width * _currentCamera.SpriteScale);
-            _rect.Height = (int)(sprite.SourceRectangle.Height * _currentCamera.SpriteScale);
-            Onwards.SpriteBatch.Draw(sprite.Texture, _rect, Color.White); //TODO opacity
+            Draw(sprite, (int)position.X,
+                         (int)position.Y,
+                         sprite.SourceRectangle.Width, 
+                         sprite.SourceRectangle.Height);
+        }
+
+        public static void Draw(Sprite sprite, int x, int y, int width, int height)
+        {
+            Draw(sprite.Texture, x, y, width, height, sprite.Opacity);
+        }
+
+        public static void Draw(Texture2D texture, int x, int y, int width, int height, float opacity = 1f)
+        {
+            Onwards.SpriteBatch.Draw(texture, GetScaledRectangle(x, y, width, height), Color.White * opacity);
+        }
+
+        static Rectangle GetScaledRectangle(int x, int y, int width, int height)
+        {
+            return new Rectangle(x * _currentCamera.SpriteScale,
+                                 y * _currentCamera.SpriteScale,
+                                 width * _currentCamera.SpriteScale,
+                                 height * _currentCamera.SpriteScale);
         }
     }
 }
