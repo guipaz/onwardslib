@@ -7,12 +7,16 @@ namespace onwardslib
 {
     public class OGame : Game
     {
+        public static OGame Instance { get; protected set; }
+
         GraphicsDeviceManager _graphicsDeviceManager;
 
         IMaestro _maestro;
 
         public OGame(IMaestro maestro)
         {
+            Instance = this;
+
             _graphicsDeviceManager = new GraphicsDeviceManager(this);
             _maestro = maestro;
         }

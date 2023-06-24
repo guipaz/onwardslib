@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections;
 
 namespace onwardslib
 {
@@ -56,9 +57,12 @@ namespace onwardslib
             }
         }
 
+        IEnumerator _currentZoomFunc;
+
         Matrix _matrix;
         bool _dirty = true;
         Vector2 _position;
+        Vector2 _lastTargetPosition;
         float _zoom = 1;
         int _spriteScale = 1;
 
@@ -67,10 +71,11 @@ namespace onwardslib
             RenderTarget = new RenderTarget2D(Onwards.GraphicsDevice, width, height, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.DiscardContents);
         }
 
-        public void CenterOn(Vector2 position, bool immediate = false)
+        public void CenterOn(Vector2 position, bool immediate = false, float speed = .1f)
         {
-            const float movementTolerance = 5f;
             const float snapTolerance = 1f;
+
+            _lastTargetPosition = position;
 
             var finalPos = position * _spriteScale - Onwards.ViewportResolution.ToVector2() / 2 / _zoom;
             if (immediate)
@@ -82,13 +87,42 @@ namespace onwardslib
                 var diff = Position - finalPos;
                 var biggerDiff = Math.Max(Math.Abs(diff.X), Math.Abs(diff.Y));
 
-                Position = Vector2.Lerp(Position, finalPos, (biggerDiff <= movementTolerance ? .1f : .05f) * _zoom);
+                Position = Vector2.Lerp(Position, finalPos, speed);
 
                 if (biggerDiff <= snapTolerance)
                 {
                     Position = finalPos;
                 }
             }
+        }
+
+        public void SetZoom(float toZoom)
+        {
+            _currentZoomFunc = ZoomFunc(toZoom);
+        }
+
+        IEnumerator ZoomFunc(float toZoom)
+        {
+            float time = .5f;
+            float startZoom = Zoom;
+            float diff = toZoom - startZoom;
+
+            float t = 0;
+            while (t < 1)
+            {
+                Zoom = startZoom + diff * Easing.SineEaseInOut(t);
+                t += Onwards.DeltaTime / time;
+                CenterOn(_lastTargetPosition, false, .5f);
+                yield return 0;
+            }
+            Zoom = toZoom;
+
+            _currentZoomFunc = null;
+        }
+
+        public void UpdateFuncs()
+        {
+            _currentZoomFunc?.MoveNext();
         }
     }
 }
