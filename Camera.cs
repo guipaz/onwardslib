@@ -68,7 +68,7 @@ namespace onwardslib
 
         public Camera(int width, int height)
         {
-            RenderTarget = new RenderTarget2D(Onwards.GraphicsDevice, width, height, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.DiscardContents);
+            RenderTarget = new RenderTarget2D(Engine.GraphicsDevice, width, height, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.DiscardContents);
         }
 
         public void CenterOn(Vector2 position, bool immediate = false, float speed = .1f)
@@ -77,7 +77,7 @@ namespace onwardslib
 
             _lastTargetPosition = position;
 
-            var finalPos = position * _spriteScale - Onwards.ViewportResolution.ToVector2() / 2 / _zoom;
+            var finalPos = position * _spriteScale - Engine.ViewportResolution.ToVector2() / 2 / _zoom;
             if (immediate)
             {
                 Position = finalPos;
@@ -111,7 +111,7 @@ namespace onwardslib
             while (t < 1)
             {
                 Zoom = startZoom + diff * Easing.SineEaseInOut(t);
-                t += Onwards.DeltaTime / time;
+                t += Engine.DeltaTime / time;
                 CenterOn(_lastTargetPosition, false, .5f);
                 yield return 0;
             }

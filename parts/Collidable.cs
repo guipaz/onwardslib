@@ -6,12 +6,12 @@ namespace onwardslib.parts
     {
         public bool Collides { get; set; } = true;
         public Point Size { get; set; }
-        public Point Offset { get; set; }
+        public Vector2 Offset { get; set; }
 
         public Rectangle GetBoundsAt(Vector2 position)
         {
-            return new Rectangle((int)position.X + Offset.X,
-                                 (int)position.Y + Offset.Y, 
+            return new Rectangle((int)(position.X + Offset.X),
+                                 (int)(position.Y + Offset.Y), 
                                  Size.X, Size.Y);
         }
 

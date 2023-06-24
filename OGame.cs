@@ -30,7 +30,7 @@ namespace onwardslib
         {
             base.LoadContent();
 
-            Onwards.Initialize(new SpriteBatch(GraphicsDevice), GraphicsDevice);
+            Engine.Initialize(new SpriteBatch(GraphicsDevice), GraphicsDevice);
 
             _maestro.Load();
         }
@@ -41,12 +41,24 @@ namespace onwardslib
 
             _maestro.Draw();
 
+            GraphicsDevice.SetRenderTarget(null);
+            Engine.SpriteBatch.Begin();
+            foreach (var toRender in _maestro.ToRender)
+            {
+                Engine.SpriteBatch.Draw(toRender,
+                                        new Rectangle(0, 0,
+                                                      _graphicsDeviceManager.PreferredBackBufferWidth,
+                                                      _graphicsDeviceManager.PreferredBackBufferHeight),
+                                        Color.White);
+            }
+            Engine.SpriteBatch.End();
+
             base.Draw(gameTime);
         }
 
         protected override void Update(GameTime gameTime)
         {
-            Onwards.DeltaTime = (float) gameTime.ElapsedGameTime.TotalSeconds;
+            Engine.DeltaTime = (float) gameTime.ElapsedGameTime.TotalSeconds;
 
             Input.Keyboard.Update();
             Input.Mouse.Update();
@@ -57,13 +69,16 @@ namespace onwardslib
             base.Update(gameTime);
         }
 
-        public void ChangeResolution(int x, int y, bool fullscreen)
+        public void ChangeResolution(int width, int height, bool fullscreen, bool borderless)
         {
-            Onwards.ViewportResolution = new Point(x, y);
+            Engine.ViewportResolution = new Point(width, height);
+            
+            _graphicsDeviceManager.PreferredBackBufferWidth = Engine.ViewportResolution.X;
+            _graphicsDeviceManager.PreferredBackBufferHeight = Engine.ViewportResolution.Y;
+
             _graphicsDeviceManager.IsFullScreen = fullscreen;
-            _graphicsDeviceManager.PreferredBackBufferWidth = Onwards.ViewportResolution.X;
-            _graphicsDeviceManager.PreferredBackBufferHeight = Onwards.ViewportResolution.Y;
-            _graphicsDeviceManager.HardwareModeSwitch = false;
+            _graphicsDeviceManager.HardwareModeSwitch = !borderless;
+
             _graphicsDeviceManager.ApplyChanges();
         }
     }

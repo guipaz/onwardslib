@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace onwardslib
 {
-    public static class Onwards
+    public static class Engine
     {
         public static string DataFolder { get; set; } = @"..\..\..\data";
 

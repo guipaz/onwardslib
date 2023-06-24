@@ -22,7 +22,7 @@ namespace onwardslib
                 }
                 else
                 {
-                    var path = $"{Onwards.DataFolder}/textures/{name}{extension}";
+                    var path = $"{Engine.DataFolder}/textures/{name}{extension}";
                     using Stream stream = File.OpenRead(path);
 
                     texture = FromStream(stream);
@@ -43,7 +43,7 @@ namespace onwardslib
                     for (int x = 0; x < width; x++)
                         data[y * width + x] = color;
 
-                var texture2D = new Texture2D(Onwards.GraphicsDevice, width, height);
+                var texture2D = new Texture2D(Engine.GraphicsDevice, width, height);
                 texture2D.SetData(data);
 
                 _colorTextures[color] = texture2D;
@@ -54,7 +54,7 @@ namespace onwardslib
 
         static Texture2D FromStream(Stream stream)
         {
-            var texture = Texture2D.FromStream(Onwards.GraphicsDevice, stream);
+            var texture = Texture2D.FromStream(Engine.GraphicsDevice, stream);
 
 #if !ANDROID
             var data = new Color[texture.Width * texture.Height];
