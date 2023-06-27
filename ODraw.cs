@@ -7,13 +7,13 @@ namespace onwardslib
     {
         static Camera _currentCamera;
         
-        public static void Begin(Camera camera)
+        public static void Begin(Camera camera, SamplerState samplerState = null)
         {
             _currentCamera = camera;
 
             Engine.GraphicsDevice.SetRenderTarget(_currentCamera.RenderTarget);
             Engine.GraphicsDevice.Clear(Color.Transparent);
-            Engine.SpriteBatch.Begin(transformMatrix: _currentCamera.Matrix);
+            Engine.SpriteBatch.Begin(transformMatrix: _currentCamera.Matrix, samplerState: samplerState ?? SamplerState.PointWrap);
         }
 
         public static void End()
@@ -44,9 +44,9 @@ namespace onwardslib
             Draw(sprite, new Rectangle(x, y, width, height));
         }
 
-        public static void Draw(Sprite sprite, Rectangle rectangle)
+        public static void Draw(Sprite sprite, Rectangle rectangle, float opacity = 1f)
         {
-            Draw(sprite.Texture, rectangle, sprite.SourceRectangle, sprite.Opacity);
+            Draw(sprite.Texture, rectangle, sprite.SourceRectangle, opacity, 0, sprite.FlipH, sprite.FlipV);
         }
 
         public static void Draw(Texture2D texture, Rectangle destinationRectangle, float opacity = 1f)
@@ -54,9 +54,9 @@ namespace onwardslib
             Draw(texture, destinationRectangle, texture.Bounds, opacity);
         }
 
-        public static void Draw(Texture2D texture, Rectangle destinationRectangle, Rectangle sourceRectangle, float opacity = 1f)
+        public static void Draw(Texture2D texture, Rectangle destinationRectangle, Rectangle sourceRectangle, float opacity = 1f, int rotation = 0, bool flipH = false, bool flipV = false)
         {
-            Engine.SpriteBatch.Draw(texture, GetScaledRectangle(destinationRectangle), sourceRectangle, Color.White * opacity);
+            Engine.SpriteBatch.Draw(texture, GetScaledRectangle(destinationRectangle), sourceRectangle, Color.White * opacity, MathHelper.ToRadians(rotation), new Vector2(sourceRectangle.Width / 2, sourceRectangle.Height / 2), (flipH ? SpriteEffects.FlipHorizontally : SpriteEffects.None) | (flipV ? SpriteEffects.FlipVertically : SpriteEffects.None), 1);
         }
 
         public static void DrawRepeated(RepeatAxis repeatAxis, Texture2D texture, float fromX, float fromY, int to, float opacity = 1f)
