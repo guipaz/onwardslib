@@ -28,6 +28,7 @@ namespace onwardslib
                     texture = FromStream(stream);
                 }
 
+                texture.Name = name;
                 _loadedTextures[name] = texture;
             }
 

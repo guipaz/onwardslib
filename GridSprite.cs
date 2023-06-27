@@ -33,27 +33,27 @@ namespace onwardslib
 
             var a = Utils.CountBits((uint)Context.W);
 
-            _sources[Context.All] = Sprite.Create(Texture, new Rectangle(0, 16, 16, 16));
-            _sources[Context.None] = Sprite.Create(Texture, new Rectangle(16, 16, 16, 16));
-            _sources[Context.S] = Sprite.Create(Texture, new Rectangle(32, 0, 16, 16));
+            _sources[Context.All] = Sprite.Get(Texture, new Rectangle(0, 16, 16, 16));
+            _sources[Context.None] = Sprite.Get(Texture, new Rectangle(16, 16, 16, 16));
+            _sources[Context.S] = Sprite.Get(Texture, new Rectangle(32, 0, 16, 16));
 
-            _sources[Context.S | Context.N] = Sprite.Create(Texture, new Rectangle(32, 16, 16, 16));
-            _sources[Context.S | Context.E] = Sprite.Create(Texture, new Rectangle(48, 0, 16, 16));
+            _sources[Context.S | Context.N] = Sprite.Get(Texture, new Rectangle(32, 16, 16, 16));
+            _sources[Context.S | Context.E] = Sprite.Get(Texture, new Rectangle(48, 0, 16, 16));
 
-            _sources[Context.E | Context.S | Context.W] = Sprite.Create(Texture, new Rectangle(80, 0, 16, 16));
-            _sources[Context.E | Context.S | Context.SE] = Sprite.Create(Texture, new Rectangle(0, 0, 16, 16));
+            _sources[Context.E | Context.S | Context.W] = Sprite.Get(Texture, new Rectangle(80, 0, 16, 16));
+            _sources[Context.E | Context.S | Context.SE] = Sprite.Get(Texture, new Rectangle(0, 0, 16, 16));
 
-            _sources[Context.E | Context.S | Context.W | Context.N] = Sprite.Create(Texture, new Rectangle(96, 0, 16, 16));
-            _sources[Context.W | Context.E | Context.SW | Context.S] = Sprite.Create(Texture, new Rectangle(64, 0, 16, 16));
-            _sources[Context.W | Context.E | Context.SE | Context.S] = new Sprite(Texture, new Rectangle(64, 0, 16, 16)) { FlipH = true };
+            _sources[Context.E | Context.S | Context.W | Context.N] = Sprite.Get(Texture, new Rectangle(96, 0, 16, 16));
+            _sources[Context.W | Context.E | Context.SW | Context.S] = Sprite.Get(Texture, new Rectangle(64, 0, 16, 16));
+            _sources[Context.W | Context.E | Context.SE | Context.S] = Sprite.Get(Texture, new Rectangle(64, 0, 16, 16), true);
 
-            _sources[Context.E | Context.S | Context.W | Context.N | Context.NW] = Sprite.Create(Texture, new Rectangle(80, 16, 16, 16));
-            _sources[Context.W | Context.E | Context.SW | Context.S | Context.SE] = Sprite.Create(Texture, new Rectangle(16, 0, 16, 16));
+            _sources[Context.E | Context.S | Context.W | Context.N | Context.NW] = Sprite.Get(Texture, new Rectangle(80, 16, 16, 16));
+            _sources[Context.W | Context.E | Context.SW | Context.S | Context.SE] = Sprite.Get(Texture, new Rectangle(16, 0, 16, 16));
             
-            _sources[Context.NW | Context.N | Context.W | Context.E | Context.SW | Context.S] = Sprite.Create(Texture, new Rectangle(64, 16, 16, 16));
-            _sources[Context.NW | Context.N | Context.W | Context.E | Context.SE | Context.S] = Sprite.Create(Texture, new Rectangle(96, 16, 16, 16));
+            _sources[Context.NW | Context.N | Context.W | Context.E | Context.SW | Context.S] = Sprite.Get(Texture, new Rectangle(64, 16, 16, 16));
+            _sources[Context.NW | Context.N | Context.W | Context.E | Context.SE | Context.S] = Sprite.Get(Texture, new Rectangle(96, 16, 16, 16));
 
-            _sources[Context.NW | Context.N | Context.NE |Context.W | Context.E | Context.SW | Context.S] = Sprite.Create(Texture, new Rectangle(48, 16, 16, 16));
+            _sources[Context.NW | Context.N | Context.NE |Context.W | Context.E | Context.SW | Context.S] = Sprite.Get(Texture, new Rectangle(48, 16, 16, 16));
 
             foreach (var k in _sources.Keys)
             {
