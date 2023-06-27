@@ -44,9 +44,9 @@ namespace onwardslib
             Draw(sprite, new Rectangle(x, y, width, height));
         }
 
-        public static void Draw(Sprite sprite, Rectangle rectangle, float opacity = 1f)
+        public static void Draw(Sprite sprite, Rectangle rectangle, float opacity = 1f, Vector2? origin = null)
         {
-            Draw(sprite.Texture, rectangle, sprite.SourceRectangle, opacity, 0, sprite.FlipH, sprite.FlipV);
+            Draw(sprite.Texture, rectangle, sprite.SourceRectangle, opacity, 0, sprite.FlipH, sprite.FlipV, origin == null ? Vector2.Zero : (Vector2)origin);
         }
 
         public static void Draw(Texture2D texture, Rectangle destinationRectangle, float opacity = 1f)
@@ -54,9 +54,9 @@ namespace onwardslib
             Draw(texture, destinationRectangle, texture.Bounds, opacity);
         }
 
-        public static void Draw(Texture2D texture, Rectangle destinationRectangle, Rectangle sourceRectangle, float opacity = 1f, int rotation = 0, bool flipH = false, bool flipV = false)
+        public static void Draw(Texture2D texture, Rectangle destinationRectangle, Rectangle sourceRectangle, float opacity = 1f, int rotation = 0, bool flipH = false, bool flipV = false, Vector2? origin = null)
         {
-            Engine.SpriteBatch.Draw(texture, GetScaledRectangle(destinationRectangle), sourceRectangle, Color.White * opacity, MathHelper.ToRadians(rotation), new Vector2(sourceRectangle.Width / 2, sourceRectangle.Height / 2), (flipH ? SpriteEffects.FlipHorizontally : SpriteEffects.None) | (flipV ? SpriteEffects.FlipVertically : SpriteEffects.None), 1);
+            Engine.SpriteBatch.Draw(texture, GetScaledRectangle(destinationRectangle), sourceRectangle, Color.White * opacity, MathHelper.ToRadians(rotation), origin == null ? Vector2.Zero : (Vector2)origin, (flipH ? SpriteEffects.FlipHorizontally : SpriteEffects.None) | (flipV ? SpriteEffects.FlipVertically : SpriteEffects.None), 1);
         }
 
         public static void DrawRepeated(RepeatAxis repeatAxis, Texture2D texture, float fromX, float fromY, int to, float opacity = 1f)

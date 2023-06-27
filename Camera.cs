@@ -68,6 +68,8 @@ namespace onwardslib
 
         public Camera(int width, int height)
         {
+            Width = width;
+            Height = height;
             RenderTarget = new RenderTarget2D(Engine.GraphicsDevice, width, height, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.DiscardContents);
         }
 
