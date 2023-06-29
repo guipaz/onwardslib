@@ -77,6 +77,9 @@ namespace onwardslib
         {
             const float snapTolerance = 1f;
 
+            position.X = (int)Math.Floor(position.X);
+            position.Y = (int)Math.Floor(position.Y);
+
             _lastTargetPosition = position;
 
             var finalPos = position * _spriteScale - Engine.ViewportResolution.ToVector2() / 2 / _zoom;
