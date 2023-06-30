@@ -4,6 +4,8 @@ namespace onwardslib.utils
 {
     public static class Utils
     {
+        public static Random Random { get; set; } = new();
+
         public static Point[] AdjacentPositions { get; } = new[]
         {
             new Point(-1, -1),
