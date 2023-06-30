@@ -10,7 +10,7 @@ namespace onwardslib
 
         public static Func<string, Stream> CustomStreamFunc { get; set; }
 
-        public static Texture2D Get(string name, int pixelsToUnit = 16, string extension = ".png")
+        public static Texture2D Get(string name, string extension = ".png")
         {
             if (!_loadedTextures.TryGetValue(name, out var texture))
             {

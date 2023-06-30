@@ -24,7 +24,7 @@ namespace onwardslib.input
 
         const int tolerance = 10;
 
-        public Point position => currentState.Position;
+        public Point Position => currentState.Position;
         public int ScrollDelta { get; set; }
 
         public bool Pressed(int id)
@@ -40,7 +40,7 @@ namespace onwardslib.input
             var previous = id == 0 ? previousState.LeftButton : previousState.RightButton;
             var current = id == 0 ? currentState.LeftButton : currentState.RightButton;
 
-            return previous == ButtonState.Pressed && current == ButtonState.Released && !startedDraggingThisFrame;
+            return previous == ButtonState.Pressed && current == ButtonState.Released && !startedDraggingThisFrame && !isDragging;
         }
 
         public void Update()

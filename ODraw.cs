@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using monobmfont;
 
 namespace onwardslib
 {
@@ -72,6 +73,11 @@ namespace onwardslib
                                    texture.Width, texture.Height),
                      opacity);
             }
+        }
+
+        public static void DrawText(BMFont font, string text, Vector2 position, Color color)
+        {
+            Engine.SpriteBatch.DrawString(font, text, position, color);
         }
 
         static Rectangle GetScaledRectangle(Rectangle rectangle)

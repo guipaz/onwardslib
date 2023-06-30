@@ -25,7 +25,7 @@ namespace onwardslib.ui
             }
         }
         public IEnumerable<View> Children => _children;
-        public Color Color { get; set; } = new Color(Utils.Random.Next(0, 256), Utils.Random.Next(0, 256), Utils.Random.Next(0, 256)); //TODO debug only
+        public Color DebugColor { get; set; } = new Color(Utils.Random.Next(0, 256), Utils.Random.Next(0, 256), Utils.Random.Next(0, 256)); //TODO debug only
 
         View _parent;
         Rectangle _localBounds;
