@@ -129,5 +129,10 @@ namespace onwardslib
         {
             _currentZoomFunc?.MoveNext();
         }
+
+        public Point ScreenToSpritePosition(Point screenPosition)
+        {
+            return screenPosition / new Point(SpriteScale);
+        }
     }
 }

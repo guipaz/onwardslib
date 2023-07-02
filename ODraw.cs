@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using monobmfont;
+using onwardslib.ui;
 
 namespace onwardslib
 {
@@ -78,6 +79,75 @@ namespace onwardslib
         public static void DrawText(BMFont font, string text, Vector2 position, Color color)
         {
             Engine.SpriteBatch.DrawString(font, text, position, color);
+        }
+
+        public static void DrawSlicedImage(SlicedImage image, Rectangle bounds, float opacity = 1f)
+        {
+            var loc = bounds.Location;
+            var spaceX = image.Spacing.X;
+            var spaceY = image.Spacing.Y;
+
+            // lines
+            var lineToCover = bounds.Width - spaceX * 2;
+            var lineCount = lineToCover / spaceX;
+            var lineRemaining = lineToCover - lineCount * spaceX;
+
+            // columns
+            var columnToCover = bounds.Height - spaceY * 2;
+            var columnCount = columnToCover / spaceY;
+            var columnRemaining = columnToCover - columnCount * spaceY;
+
+            for (var i = 0; i <= lineCount; i++)
+            {
+                var w = image.Spacing.X;
+                if (i == lineCount)
+                {
+                    w = lineRemaining;
+                }
+
+                Draw(image.Sprite.Texture, new Rectangle(loc + new Point(spaceX * (i + 1), 0), new Point(w, spaceY)), image.NRect, opacity); //N
+                Draw(image.Sprite.Texture, new Rectangle(loc + new Point(spaceX * (i + 1), bounds.Size.Y - spaceY), new Point(w, spaceY)), image.SRect, opacity); //S
+            }
+
+            for (var i = 0; i <= columnCount; i++)
+            {
+                var h = image.Spacing.Y;
+                if (i == columnCount)
+                {
+                    h = columnRemaining;
+                }
+
+                Draw(image.Sprite.Texture, new Rectangle(loc + new Point(0, spaceY * (i + 1)), new Point(spaceX, h)), image.WRect, opacity); //W
+                Draw(image.Sprite.Texture, new Rectangle(loc + new Point(bounds.Size.X - spaceX, spaceY * (i + 1)), new Point(spaceX, h)), image.ERect, opacity); //E
+            }
+
+            // middle
+            var horizontalCount = (bounds.Width - spaceX * 2) / spaceX;
+            var verticalCount = (bounds.Height - spaceY * 2) / spaceY;
+            for (var i = 0; i <= horizontalCount; i++)
+            {
+                for (var j = 0; j <= verticalCount; j++)
+                {
+                    var w = image.Spacing.X;
+                    var h = image.Spacing.Y;
+                    if (i == horizontalCount)
+                    {
+                        w = lineRemaining;
+                    }
+                    if (j == verticalCount)
+                    {
+                        h = columnRemaining;
+                    }
+
+                    Draw(image.Sprite.Texture, new Rectangle(loc + new Point(spaceX * (i + 1), spaceY * (j + 1)), new Point(w, h)), image.CRect, opacity); //C
+                }
+            }
+
+            // corners
+            Draw(image.Sprite.Texture, new Rectangle(loc, image.Spacing), image.NWRect, opacity); //NW
+            Draw(image.Sprite.Texture, new Rectangle(loc + new Point(bounds.Size.X - spaceX, 0), image.Spacing), image.NERect, opacity); //NE
+            Draw(image.Sprite.Texture, new Rectangle(loc + new Point(0, bounds.Size.Y - spaceY), image.Spacing), image.SWRect, opacity); //SW
+            Draw(image.Sprite.Texture, new Rectangle(loc + new Point(bounds.Size.X - spaceX, bounds.Size.Y - spaceY), image.Spacing), image.SERect, opacity); //SE
         }
 
         static Rectangle GetScaledRectangle(Rectangle rectangle)
