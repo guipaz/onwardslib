@@ -1,8 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
+using onwardslib.ecs;
 
 namespace onwardslib.parts
 {
-    public class Collidable : IPart
+    public class Collidable : Part
     {
         public bool Collides { get; set; } = true;
         public Point Size { get; set; }

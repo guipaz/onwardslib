@@ -1,37 +1,29 @@
-﻿using onwardslib.parts;
-
-namespace onwardslib
+﻿namespace onwardslib.ecs
 {
     public abstract class Entity
     {
-        List<IPart> _parts = new List<IPart>();
+        List<Part> _parts = new List<Part>();
 
-        public Transform Transform { get; }
-        public IEnumerable<IPart> Parts { get => _parts; }
+        public IEnumerable<Part> Parts { get => _parts; }
 
-        public Entity()
-        {
-            Transform = AddPart<Transform>();
-        }
-
-        public T AddPart<T>() where T : IPart
+        public T AddPart<T>() where T : Part
         {
             var part = Activator.CreateInstance<T>();
             AddPart(part);
             return part;
         }
 
-        public void AddPart(IPart part)
+        public void AddPart(Part part)
         {
             _parts.Add(part);
         }
 
-        public void RemovePart(IPart part)
+        public void RemovePart(Part part)
         {
             _parts.Remove(part);
         }
 
-        public T GetPart<T>() where T : IPart
+        public T GetPart<T>() where T : Part
         {
             foreach (var part in _parts)
             {

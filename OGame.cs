@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using onwardslib.input;
 
 namespace onwardslib
@@ -11,14 +10,14 @@ namespace onwardslib
 
         GraphicsDeviceManager _graphicsDeviceManager;
 
-        IMaestro _maestro;
+        protected IMaestro Maestro { get; set; }
 
-        public OGame(IMaestro maestro)
+        public OGame(IMaestro maestro = null)
         {
             Instance = this;
 
             _graphicsDeviceManager = new GraphicsDeviceManager(this);
-            _maestro = maestro;
+            Maestro = maestro;
         }
 
         protected override void Initialize()
@@ -32,18 +31,18 @@ namespace onwardslib
 
             Engine.Initialize(new SpriteBatch(GraphicsDevice), GraphicsDevice);
 
-            _maestro.Load();
+            Maestro.Load();
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Transparent);
 
-            _maestro.Draw();
+            Maestro.Draw();
 
             GraphicsDevice.SetRenderTarget(null);
             Engine.SpriteBatch.Begin();
-            foreach (var toRender in _maestro.ToRender)
+            foreach (var toRender in Maestro.ToRender)
             {
                 Engine.SpriteBatch.Draw(toRender,
                                         new Rectangle(0, 0,
@@ -64,7 +63,7 @@ namespace onwardslib
             Input.Mouse.Update();
             Input.Gamepad.Update();
 
-            _maestro.Update();
+            Maestro.Update();
 
             base.Update(gameTime);
         }

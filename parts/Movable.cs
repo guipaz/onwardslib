@@ -1,9 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using onwardslib;
+using onwardslib.ecs;
 
 namespace harvester.parts
 {
-    public class Movable : IPart
+    public class Movable : Part
     {
         public Vector2 Force { get; set; }
         public float TerminalSpeed { get; set; } = 100f;

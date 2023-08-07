@@ -1,9 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using onwardslib;
+using onwardslib.ecs;
 
 namespace harvester.parts
 {
-    public class Renderable : IPart
+    public class Renderable : Part
     {
         public Sprite Sprite { get; set; }
         public Vector2 Offset { get; set; }
