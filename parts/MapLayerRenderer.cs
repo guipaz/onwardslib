@@ -15,7 +15,12 @@ namespace onwardslib.parts
 
         public void Render()
         {
-            //TODO
+            
+        }
+
+        void UpdateLayerTexture()
+        {
+
         }
     }
 }

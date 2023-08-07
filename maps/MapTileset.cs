@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace onwardslib.maps
 {
@@ -10,7 +11,18 @@ namespace onwardslib.maps
         {
             Sprites = new Dictionary<int, Sprite>();
 
-            //TODO
+            var amountX = texture.Width / tileSize;
+            var amountY = texture.Height / tileSize;
+
+            var i = 0;
+            for (var y = 0; y < amountY; y++)
+            {
+                for (var x = 0; x < amountX; x++)
+                {
+                    Sprites[initialGid + i] = Sprite.Create(texture, new Rectangle(x * tileSize, y * tileSize, tileSize, tileSize));
+                    i++;
+                }
+            }
         }
     }
 }
