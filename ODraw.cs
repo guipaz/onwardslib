@@ -51,6 +51,11 @@ namespace onwardslib
             Draw(sprite.Texture, rectangle, sprite.SourceRectangle, opacity, 0, sprite.FlipH, sprite.FlipV, origin == null ? Vector2.Zero : (Vector2)origin);
         }
 
+        public static void Draw(Texture2D texture, float opacity = 1f)
+        {
+            Draw(texture, texture.Bounds, texture.Bounds, opacity);
+        }
+
         public static void Draw(Texture2D texture, Rectangle destinationRectangle, float opacity = 1f)
         {
             Draw(texture, destinationRectangle, texture.Bounds, opacity);

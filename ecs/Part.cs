@@ -1,6 +1,6 @@
 ﻿namespace onwardslib.ecs
 {
-    public abstract class Part
+    public abstract class Part : IDisposable
     {
         public Entity Entity { get; set; }
 
@@ -9,5 +9,6 @@
             return Entity.GetPart<T>();
         }
         public virtual void Load() { }
+        public virtual void Dispose() { }
     }
 }

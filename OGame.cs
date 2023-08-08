@@ -4,20 +4,18 @@ using onwardslib.input;
 
 namespace onwardslib
 {
-    public class OGame : Game
+    public abstract class OGame : Game
     {
-        public static OGame Instance { get; protected set; }
+        protected abstract void GameLoad();
+        protected abstract void GameRender();
+        protected abstract void GameUpdate();
+        protected abstract IEnumerable<Texture2D> RenderToScreen { get; }
 
         GraphicsDeviceManager _graphicsDeviceManager;
 
-        protected IMaestro Maestro { get; set; }
-
-        public OGame(IMaestro maestro = null)
+        public OGame()
         {
-            Instance = this;
-
             _graphicsDeviceManager = new GraphicsDeviceManager(this);
-            Maestro = maestro;
         }
 
         protected override void Initialize()
@@ -31,18 +29,18 @@ namespace onwardslib
 
             Engine.Initialize(new SpriteBatch(GraphicsDevice), GraphicsDevice);
 
-            Maestro.Load();
+            GameLoad();
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Transparent);
 
-            Maestro.Draw();
+            GameRender();
 
             GraphicsDevice.SetRenderTarget(null);
             Engine.SpriteBatch.Begin();
-            foreach (var toRender in Maestro.ToRender)
+            foreach (var toRender in RenderToScreen)
             {
                 Engine.SpriteBatch.Draw(toRender,
                                         new Rectangle(0, 0,
@@ -63,7 +61,7 @@ namespace onwardslib
             Input.Mouse.Update();
             Input.Gamepad.Update();
 
-            Maestro.Update();
+            GameUpdate();
 
             base.Update(gameTime);
         }

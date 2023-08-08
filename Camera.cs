@@ -4,7 +4,7 @@ using System.Collections;
 
 namespace onwardslib
 {
-    public class Camera
+    public class Camera : IDisposable
     {
         public int Width { get; }
         public int Height { get; }
@@ -133,6 +133,11 @@ namespace onwardslib
         public Point ScreenToSpritePosition(Point screenPosition)
         {
             return screenPosition / new Point(SpriteScale);
+        }
+
+        public void Dispose()
+        {
+            RenderTarget.Dispose();
         }
     }
 }

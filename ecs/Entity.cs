@@ -2,25 +2,41 @@
 {
     public abstract class Entity
     {
-        List<Part> _parts = new List<Part>();
-
         public IEnumerable<Part> Parts { get => _parts; }
 
-        public T AddPart<T>() where T : Part
+        List<Part> _parts = new List<Part>();
+        List<Part> _toAdd = new List<Part>();
+        List<Part> _toRemove = new List<Part>();
+
+        public T AddPart<T>(bool immediate = false) where T : Part
         {
             var part = Activator.CreateInstance<T>();
-            AddPart(part);
+            AddPart(part, immediate);
             return part;
         }
 
-        public void AddPart(Part part)
+        public void AddPart(Part part, bool immediate = false)
         {
-            _parts.Add(part);
+            if (immediate)
+            {
+                _parts.Add(part);
+            }
+            else
+            {
+                _toAdd.Add(part);
+            }
         }
 
-        public void RemovePart(Part part)
+        public void RemovePart(Part part, bool immediate = false)
         {
-            _parts.Remove(part);
+            if (immediate)
+            {
+                _parts.Remove(part);
+            }
+            else
+            {
+                _toRemove.Add(part);
+            }
         }
 
         public T GetPart<T>() where T : Part
